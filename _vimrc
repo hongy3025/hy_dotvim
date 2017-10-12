@@ -49,6 +49,11 @@ else
     call plug#begin('$VIM/vimfiles/plugged')
 endif
 
+if g:islinux
+	Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+	Plug 'junegunn/fzf.vim'
+endif
+
 Plug 'scrooloose/nerdtree',  { 'on':  'NERDTreeToggle' }
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-surround'
