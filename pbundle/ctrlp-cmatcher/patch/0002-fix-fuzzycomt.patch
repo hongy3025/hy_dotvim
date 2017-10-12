@@ -1,0 +1,103 @@
+From 6a0ef2e509d9926e46e3146fde205f71a4a34a1f Mon Sep 17 00:00:00 2001
+From: hongy <hongy3025@163.com>
+Date: Tue, 10 Oct 2017 18:25:35 +0800
+Subject: [PATCH 2/3] fix fuzzycomt
+
+---
+ autoload/fuzzycomt.c | 22 ++++++++++++----------
+ autoload/matcher.vim |  4 ++--
+ 2 files changed, 14 insertions(+), 12 deletions(-)
+
+diff --git a/autoload/fuzzycomt.c b/autoload/fuzzycomt.c
+index 1e44391..4b41c8b 100644
+--- a/autoload/fuzzycomt.c
++++ b/autoload/fuzzycomt.c
+@@ -36,9 +36,9 @@ void ctrlp_get_line_matches(PyObject* paths,
+                             char *mmode)
+ {
+     int i;
+-    int max;
++	int max = (int)PyList_Size(paths);
+     // iterate over lines and get match score for every line
+-    for (i = 0, max = PyList_Size(paths); i < max; i++) {
++    for (i = 0; i < max; i++) {
+         PyObject* path = PyList_GetItem(paths, i);
+         matchobj_t match;
+         match = ctrlp_find_match(path, abbrev, mmode);
+@@ -47,7 +47,7 @@ void ctrlp_get_line_matches(PyObject* paths,
+ }
+ 
+ char *strduplicate(const char *s) {
+-    int n = strlen(s);
++    size_t n = strlen(s);
+     char *d = malloc(n + 1);
+     if (d == NULL)
+        return NULL;
+@@ -87,9 +87,9 @@ int ctrlp_comp_alpha(const void *a, const void *b) {
+     matchobj_t b_val = *(matchobj_t *)b;
+ 
+     char *a_p = PyString_AsString(a_val.str);
+-    long a_len = PyString_Size(a_val.str);
++    long a_len = (long)PyString_Size(a_val.str);
+     char *b_p = PyString_AsString(b_val.str);
+-    long b_len = PyString_Size(b_val.str);
++    long b_len = (long)PyString_Size(b_val.str);
+ 
+     int order = 0;
+     if (a_len > b_len) {
+@@ -267,7 +267,8 @@ PyObject* ctrlp_fuzzycomt_match(PyObject* self, PyObject* args) {
+               ctrlp_comp_score_alpha);
+     }
+ 
+-    for (i = 0, max = PyList_Size(paths); i < max; i++) {
++	max = (int)PyList_Size(paths);
++    for (i = 0; i < max; i++) {
+             if (i == limit)
+                 break;
+             // generate python dicts { 'line' : line, 'value' : value }
+@@ -336,7 +337,8 @@ PyObject* ctrlp_fuzzycomt_sorted_match_list(PyObject* self, PyObject* args) {
+               ctrlp_comp_score_alpha);
+     }
+ 
+-    for (i = 0, max = PyList_Size(paths); i < max; i++) {
++	max = (int)PyList_Size(paths);
++    for (i = 0; i < max; i++) {
+        if (i == limit)
+           break;
+         if ( matches[i].score> 0 ) {
+@@ -378,14 +380,14 @@ matchobj_t ctrlp_find_match(PyObject* str, PyObject* abbrev, char *mmode)
+     if (strcmp(mmode, "filename-only") == 0) {
+         // get file name by splitting string on slashes
+         m.haystack_p = slashsplit(temp_string);
+-        m.haystack_len = strlen(m.haystack_p);
++        m.haystack_len = (long)strlen(m.haystack_p);
+     }
+     else {
+         m.haystack_p                 = temp_string;
+-        m.haystack_len               = PyString_Size(str);
++        m.haystack_len               = (long)PyString_Size(str);
+     }
+     m.needle_p              = PyString_AsString(abbrev);
+-    m.needle_len            = PyString_Size(abbrev);
++    m.needle_len            = (long)PyString_Size(abbrev);
+     m.max_score_per_char    = (1.0 / m.haystack_len + 1.0 / m.needle_len) / 2;
+     m.dot_file              = 0;
+ 
+diff --git a/autoload/matcher.vim b/autoload/matcher.vim
+index a55bd34..652fa3b 100644
+--- a/autoload/matcher.vim
++++ b/autoload/matcher.vim
+@@ -57,8 +57,8 @@ if ispath and crfile:
+ try:
+   # TODO we should support smartcase. Needs some fixing on matching side
+   matchlist = fuzzycomt.sorted_match_list(lines, searchinp.lower(), limit, mmode)
+-except:
+-  matchlist = []
++except Exception, e:
++  matchlist = ['error:', str(e)]
+ EOF
+ return s:pyeval("matchlist")
+ endf
+-- 
+2.14.1.windows.1
+

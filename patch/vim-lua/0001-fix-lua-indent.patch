@@ -1,0 +1,25 @@
+From 2e98f317a3fb189d48c944488b90cea5903e1b1a Mon Sep 17 00:00:00 2001
+From: hongy <hongy3025@163.com>
+Date: Wed, 11 Oct 2017 20:30:57 +0800
+Subject: [PATCH] fix lua indent
+
+---
+ indent/lua.vim | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/indent/lua.vim b/indent/lua.vim
+index dbf0b1e..2694979 100644
+--- a/indent/lua.vim
++++ b/indent/lua.vim
+@@ -13,7 +13,7 @@ setlocal autoindent
+ setlocal nosmartindent
+ 
+ setlocal indentexpr=GetLuaIndent()
+-setlocal indentkeys+=0=end,0=until,0=elseif,0=else
++setlocal indentkeys+=0end,0until,0elseif,0else
+ 
+ " Only define the function once.
+ if exists("*GetLuaIndent")
+-- 
+2.14.1.windows.1
+
