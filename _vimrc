@@ -1,7 +1,7 @@
 " =============================================================================
 "        << 判断操作系统是 Windows 还是 Linux 和判断是终端还是 Gvim >>
 " =============================================================================
-
+"
 set encoding=utf-8
 " set renderoptions=type:directx,renmode:5,taamode:1
 " set renderoptions=
@@ -1038,7 +1038,7 @@ let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
 let g:ale_set_loclist = 1
 let g:ale_set_quickfix = 0
-let g:ale_python_pylint_args = "--rcfile=f:/g53/conf/pylintrc"
+" let g:ale_python_pylint_args = "--rcfile=f:/g53/conf/pylintrc"
 
 let g:ale_linters = { 'go': ['golint', 'gotype', 'gofmt', 'gobuild', 'govet', 'staticcheck',] }
 let g:ale_go_gometalinter_args = "--disable=staticcheck --disable=govet --disable=gotype --disable=golint"
