@@ -708,8 +708,6 @@ let g:ctrlp_max_depth = 30
 let g:ctrlp_follow_symlinks = 0
 let g:ctrlp_key_loop = 1
 
-" let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-" let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
 let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
 
 let g:ctrlp_match_window = "bottom,order:ttb,min:1,max:10,results:30"

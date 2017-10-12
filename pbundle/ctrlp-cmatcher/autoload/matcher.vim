@@ -9,6 +9,7 @@
 
 " Use pyeval() or py3eval() for newer python versions or fall back to
 " vim.command() if vim version is old
+"
 " This code is borrowed from Powerline
 let s:matcher_pycmd = has('python') ? 'py' : 'py3'
 let s:matcher_pyeval = s:matcher_pycmd.'eval'
@@ -29,6 +30,8 @@ sys.path.insert( 0, os.path.abspath( vim.eval('s:script_folder_path' ) ) )
 import fuzzycomt
 sys.path.pop(0)
 ImportEOF
+
+let g:aaaa = s:script_folder_path
 
 fu! s:matchtabs(item, pat)
   return match(split(a:item, '\t\+')[0], a:pat)

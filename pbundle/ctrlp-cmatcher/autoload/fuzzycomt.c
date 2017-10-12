@@ -244,7 +244,11 @@ PyObject* ctrlp_fuzzycomt_match(PyObject* self, PyObject* args) {
         return 0;
     }
 
+#ifdef _WIN32
     matchobj_t *matches = (matchobj_t*)_alloca(sizeof(matchobj_t) * PyList_Size(paths));
+#else
+    matchobj_t matches[PyList_Size(paths)];
+#endif
 
     if ( (limit > PyList_Size(paths)) || (limit == 0) ) {
         limit = PyList_Size(paths);
@@ -313,7 +317,11 @@ PyObject* ctrlp_fuzzycomt_sorted_match_list(PyObject* self, PyObject* args) {
         return 0;
     }
 
+#ifdef _WIN32
     matchobj_t *matches = (matchobj_t*)_alloca(sizeof(matchobj_t) * PyList_Size(paths));
+#else
+    matchobj_t matches[PyList_Size(paths)];
+#endif
 
     if ( (limit > PyList_Size(paths)) || (limit == 0) ) {
         limit = PyList_Size(paths);
@@ -408,8 +416,13 @@ matchobj_t ctrlp_find_match(PyObject* str, PyObject* abbrev, char *mmode)
     } else if (m.haystack_len > 0) { // normal case
 
         // prepare for memoization
-        int n = m.haystack_len * m.needle_len;
+        int n = (int)(m.haystack_len * m.needle_len);
+
+#ifdef _WIN32
         double *memo = (double*)_alloca(sizeof(double) * n);
+#else
+        double memo[n];
+#endif
         max = n;
         for (i = 0; i < max; i++)
             memo[i] = DBL_MAX;
