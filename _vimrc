@@ -76,6 +76,7 @@ Plug 'SirVer/ultisnips'
 Plug 'bling/vim-bufferline'
 Plug 'easymotion/vim-easymotion'
 Plug 'jiangmiao/auto-pairs'
+Plug 'j16180339887/Global.vim'
 
 call plug#end()
 
