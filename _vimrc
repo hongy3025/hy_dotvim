@@ -75,6 +75,7 @@ Plug 'tenfyzhong/CompleteParameter.vim'
 Plug 'SirVer/ultisnips'
 Plug 'bling/vim-bufferline'
 Plug 'easymotion/vim-easymotion'
+Plug 'jiangmiao/auto-pairs'
 
 call plug#end()
 
@@ -96,8 +97,8 @@ set shortmess+=c
 if g:isGUI
 	colorscheme molokai
 	if g:iswindows
-		" set guifont=Monaco:h9:cANSI
-		set guifont=Ubuntu_Mono_derivative_Powerlin:h12.5:w6:cANSI:qDRAFT
+		set guifont=Monaco:h9:cANSI
+		" set guifont=Ubuntu_Mono_derivative_Powerlin:h12.5:w6:cANSI:qDRAFT
 		" set guifont=mononoki:h10:cANSI
 		" set guifont=Consolas:h10:cANSI:qDRAFT
 		" set guifont=Megatops_ProCoder_1.0:h9:cANSI:qDRAFT
@@ -1058,7 +1059,7 @@ let g:bufferline_echo = 0
 
 let g:signify_vcs_list = [ 'git', 'svn' ]
 
-inoremap <silent><expr> ( complete_parameter#pre_complete("()")
+inoremap <silent><expr> ( complete_parameter#pre_complete("(")
 let g:complete_parameter_echo_signature = 0
 
 let g:EasyMotion_do_mapping = 0
