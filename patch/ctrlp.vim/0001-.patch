@@ -1,0 +1,41 @@
+From 76db9ebd17eb6177cdd42169aed4700e9a41b4e0 Mon Sep 17 00:00:00 2001
+From: hongy <hongy3025@163.com>
+Date: Wed, 11 Oct 2017 09:24:52 +0800
+Subject: [PATCH 1/2] =?UTF-8?q?=E4=BF=AE=E6=94=B9=E5=BF=AB=E6=8D=B7?=
+ =?UTF-8?q?=E9=94=AE?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ autoload/ctrlp/bookmarkdir.vim | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
+
+diff --git a/autoload/ctrlp/bookmarkdir.vim b/autoload/ctrlp/bookmarkdir.vim
+index f7fc14d..a3fbbf6 100644
+--- a/autoload/ctrlp/bookmarkdir.vim
++++ b/autoload/ctrlp/bookmarkdir.vim
+@@ -101,15 +101,12 @@ endf
+ fu! ctrlp#bookmarkdir#accept(mode, str)
+ 	let parts = s:parts(s:modify(a:str, ':p'))
+ 	cal call('s:savebookmark', parts)
+-	if a:mode =~ 't\|v\|h'
+-		cal ctrlp#exit()
+-	en
+-	cal ctrlp#setdir(parts[1], a:mode =~ 't\|h' ? 'chd!' : 'lc!')
++	echo 'mode:' . a:mode
+ 	if a:mode == 'e'
+-		cal ctrlp#switchtype(0)
+-		cal ctrlp#recordhist()
+-		cal ctrlp#prtclear()
+-	en
++		call ctrlp#setdir(parts[1], 'chd!')
++		set title titlestring=aaa
++		call ctrlp#exit()
++	endif
+ endf
+ 
+ fu! ctrlp#bookmarkdir#add(bang, dir, ...)
+-- 
+2.14.1.windows.1
+

@@ -3,7 +3,8 @@
 " =============================================================================
 "
 set encoding=utf-8
-" set renderoptions=type:directx,renmode:5,taamode:1
+set renderoptions=type:directx,renmode:5,taamode:1
+set guifont=Ubuntu_Mono_derivative_Powerlin:h12.5:w6:cANSI:qDRAFT
 " set renderoptions=
 
 " -----------------------------------------------------------------------------
@@ -98,7 +99,7 @@ set shortmess+=c
 if g:isGUI
 	colorscheme molokai
 	if g:iswindows
-		set guifont=Monaco:h9:cANSI
+		" set guifont=Monaco:h9:cANSI
 		" set guifont=Ubuntu_Mono_derivative_Powerlin:h12.5:w6:cANSI:qDRAFT
 		" set guifont=mononoki:h10:cANSI
 		" set guifont=Consolas:h10:cANSI:qDRAFT
