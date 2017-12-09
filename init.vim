@@ -4,7 +4,7 @@ set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,utf-8,gbk,cp936,latin-1
 
-colorscheme molokai
+colorscheme wombat256mod
 
 let g:iswindows = 0
 let g:islinux = 0
@@ -48,24 +48,27 @@ Plug 'junegunn/vim-slash'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'lokikl/vim-ctrlp-ag'
 Plug 'skywind3000/asyncrun.vim'
-Plug 'craigemery/vim-autotag'
 Plug 'tbastos/vim-lua'
+Plug 'craigemery/vim-autotag'
 Plug 'fatih/vim-go', { 'for': 'go' }
 Plug 'SirVer/ultisnips'
 Plug 'easymotion/vim-easymotion'
 Plug 'j16180339887/Global.vim'
 
 "{{{
-"Plug 'roxma/nvim-completion-manager'
-"Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
-"Plug 'roxma/ncm-clang'
-"Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
+Plug 'roxma/nvim-completion-manager'
+Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+Plug 'roxma/ncm-clang'
+Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
 "}}}
 
 "{{{
 Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-jedi'
 Plug 'zchee/deoplete-go', { 'do': 'make'}
+Plug 'Rip-Rip/clang_complete'
+Plug 'Shougo/echodoc.vim'
+"Plug 'tweekmonster/deoplete-clang2'
 "}}}
 
 Plug 'Shougo/neco-vim'
@@ -73,22 +76,41 @@ Plug 'Shougo/neco-syntax'
 Plug 'Shougo/neoinclude.vim'
 
 Plug 'jsfaint/gen_tags.vim'
-Plug 'SirVer/ultisnips'
+
+Plug 'vim-scripts/Conque-GDB'
 
 
 call plug#end()
 
 " }}} vim-plug
-
+"
 let g:deoplete#enable_at_startup = 1
+let g:cm_smart_enable = 0
+"let g:cm_completed_snippet_enable = 1
+
 let g:deoplete#sources#jedi#enable_cache = 1
 let g:deoplete#sources#jedi#show_docstring = 1
+
+let g:deoplete#sources#go#pointer = 0
+let g:deoplete#sources#go#cgo = 1
+
+let g:clang_complete_auto = 0
+let g:clang_auto_select = 0
+let g:clang_omnicppcomplete_compliance = 0
+let g:clang_make_default_keymappings = 0
+let g:clang_library_path='/usr/lib/llvm-3.8/lib/libclang.so.1'
+
+let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
+let g:UltiSnipsJumpForwardTrigger	= "<c-j>"
+let g:UltiSnipsJumpBackwardTrigger	= "<c-k>"
+let g:UltiSnipsRemoveSelectModeMappings = 0
+inoremap <silent> <c-u> <c-r>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<cr>
 
 set sessionoptions=curdir,options
 set shortmess+=c
 
 set t_Co=256
-"set mouse=a
+set mouse=a
 
 
 syntax on
@@ -118,7 +140,7 @@ set cinoptions=:0g0t0(sus
 set path=.,**
 set grepprg=ag\ --vimgrep
 set makeprg=make
-set completeopt=menu,preview,longest
+set completeopt=menu,menuone,preview,noinsert,noselect
 
 set history=1000
 set clipboard=unnamed,unnamedplus
@@ -136,6 +158,7 @@ set laststatus=2
 set cmdheight=1
 set wrap
 set shortmess=atI
+set list
 
 set backup
 set backupext=.bak
@@ -219,6 +242,10 @@ noremap B		:bp<cr>
 
 nnoremap <silent> ,x :Kwbd<cr>
 
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function() abort
+    return deoplete#close_popup() . "\<CR>"
+endfunction
 
 function! SvnDiffInNewTab(args)
 	tabnew
@@ -318,5 +345,36 @@ command! -bang History
   \ call fzf#vim#history(fzf#vim#with_preview(), <bang>0)
 
 " fzf }}}
-"
-"
+
+" ctrlp {{{
+let g:user_command_async = 1
+let g:ctrlp_working_path_mode = ''
+let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+    \ 'file': '\v\.(exe|so|dll|log)$',
+    \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
+    \ }
+
+let g:ctrlp_switch_buffer = 'ET'
+let g:ctrlp_lazy_update = 100
+let g:ctrlp_max_files = 0
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+  let g:ctrlp_user_command = 'ag -l --nocolor -g "" %s'
+else
+  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+endif
+let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
+
+"let g:ctrlp_use_caching = 1
+"let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_max_depth = 30
+let g:ctrlp_follow_symlinks = 0
+
+let g:ctrlp_extensions = ['tag', 'buffertag', 'autoignore']
+let g:ctrlp_match_window = "bottom,order:ttb,min:1,max:10,results:30"
+
+let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
+
+" ctrlp }}}
+

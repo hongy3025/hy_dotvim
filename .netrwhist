@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/home/hongy/bs/sa/docker/debian-stretch/build/etc'
+let g:netrw_dirhist_2='/home/hongy/bs/sa/docker/debian-stretch/build'
+let g:netrw_dirhist_3='/home/hongy/bs/sa/docker/debian-stretch/build/script'
+let g:netrw_dirhist_4='/home/hongy/bs/sa/docker/debian-stretch'
+let g:netrw_dirhist_5='/home/hongy/bs/sa/docker/compose/bs_nodes'
+let g:netrw_dirhist_6='/home/gs/server/conf'
